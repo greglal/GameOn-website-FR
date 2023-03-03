@@ -29,15 +29,27 @@ function closeModal() {
 }
 
 //vιrification formulaire
-const testPrenom = document.getElementById("first");
+/*const testPrenom = document.getElementById("first");
+let validName = /^[a-zA-Zιθκξοφτη][a-zιθκξοφτη]+([-'\s][a-zA-Zιθκξοφτη][a-zιθκξοφτη]+)?/;
 const testNom = document.getElementById("last");
+const testMail = document.getElementById("email");
+let validMail = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
 
-function validate(event){
-  if(testPrenom.value.length < 2){
+function validate(event) {
+  if (testPrenom.value.length < 2) {
     event.preventDefault();
-    document.getElementById('prenomMissing').innerHTML = "Ce champ doit contenir au moins 2 caracteres" ;
-  } else if(testNom.value.length<1){
+    document.getElementById('prenomMissing').innerHTML = "Ce champ doit contenir au moins 2 caracteres";
+  } else if (validName.test(testPrenom.value) == false){
     event.preventDefault();
-    document.getElementById('nomMissing').innerHTML = "Ce champ ne doit pas etre vide" ;
+    document.getElementById('prenomMissing').innerHTML = "format incorrect";
+  } else if (testNom.value.length < 1) {
+    event.preventDefault();
+    document.getElementById('nomMissing').innerHTML = "Ce champ ne doit pas etre vide";
+  }else if (validName.test(testNom.value) == false){
+      event.preventDefault();
+      document.getElementById('nomMissing').innerHTML = "format incorrect";
+  } else if(validMail.test(testMail.value) == false){
+    event.preventDefault();
+    document.getElementById('mailIncorrect').innerHTML = "Veuillez indiquer une adresse mail valide";
   }
-}
+}*/
