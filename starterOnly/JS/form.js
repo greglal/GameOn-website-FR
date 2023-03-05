@@ -4,9 +4,10 @@ const testNom = document.getElementById("last");
 const testMail = document.getElementById("email");
 const testDate = document.getElementById("birthdate");
 const testTournois = document.getElementById("quantity");
-const testVilleTournois = document.getElementById("ville") ;
-const testVilles = document.querySelectorAll(".checkbox-input[type=radio]");
+const villeTournois = document.getElementById("ville") ;
+const radios = document.querySelectorAll(".checkbox-input[type=radio]");
 const testCGU = document.getElementById("checkbox1");
+const content = document.querySelector(".modalConfirm");
 
 //éléments de validation
 const validPrenom = /^[a-zA-Zéèêîïöôç][a-zéèêîïöôç]+([-'\s][a-zA-Zéèêîïöôç][a-zéèêîïöôç]+)?/;
@@ -25,7 +26,7 @@ const messages ={
 }
 
 // test du prenom
-function testingPrenom(event) {
+function testingPrenom() {
     if (testPrenom.value.length < 2) { //min 2 caractères
         return false;
     }
@@ -33,7 +34,7 @@ function testingPrenom(event) {
 }
 
 // test du format du prénom
-function testingFormatPrenom(event) {
+function testingFormatPrenom() {
     if (validPrenom.test(testPrenom.value) == false) { //format sans chiffres ni caractères spéciaux
         return false;
     }
@@ -49,7 +50,7 @@ function testingNom(){
 }
 
 // test du format du nom
-function testingFormatNom(event) {
+function testingFormatNom() {
     if(validPrenom.test(testNom.value) == false){
         return false;
     }
@@ -90,7 +91,7 @@ function testingTournois() {
 
 // choix de la ville du tournois
 function testingVilles() {
-    for (let radio of testVilles){
+    for (let radio of radios){
         if (radio.checked == false){
             return false;
         }
@@ -106,8 +107,6 @@ function testingCGU() {
     return true;
 }
 
-
-
 // création du span pour message d'erreur
 function isInvalid (element, message){
     let invalidMessage = document.createElement("span");
@@ -117,55 +116,63 @@ function isInvalid (element, message){
 
 }
 
-
 let isValid = true;
+let form = document.querySelector(".form");
 
 // vérification et validation du formulaire
 function validate(event){
-    //event.preventDefault();
+    event.preventDefault();
     if(!testingPrenom()) {
-        event.preventDefault();
         isValid = false;
         isInvalid(testPrenom, messages.tailleInput);
+        testPrenom.style.border = "2px solid red";
     } else if (!testingFormatPrenom()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testPrenom, messages.formatInput);
+        testPrenom.style.border = "2px solid red";
     } else if(!testingNom()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testNom, messages.tailleInput);
+        testNom.style.border = "2px solid red";
     } else if (!testingFormatNom()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testNom, messages.formatInput);
+        testNom.style.border = "2px solid red";
     } else if (!testingMail()) {
-        event.preventDefault();
         isValid = false;
         isInvalid(testMail, messages.mailInput);
+        testMail.style.border = "2px solid red";
     }else if (!testingFormatMail()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testMail, messages.formatInput);
+        testMail.style.border = "2px solid red";
     } else if (!testingDate()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testDate, messages.dateInput);
+        testDate.style.border = "2px solid red";
     }else if (!testingTournois()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testTournois, messages.emptyInput);
+        testTournois.style.border = "2px solid red";
     }else if (!testingVilles()){
-        event.preventDefault();
         isValid = false;
-        isInvalid(testVilleTournois, messages.selectVille);
+        isInvalid(villeTournois, messages.selectVille);
     }else if(!testingCGU()){
-        event.preventDefault();
         isValid = false;
         isInvalid(testCGU, messages.acceptCGU);
+        testCGU.style.border = "2px solid red";
     }else if (isValid){
-        form.submit()
+        let valider = document.querySelector(".btn-submit");
+        valider.addEventListener("click",function(){
+            document.querySelector(".form").style.display = "none";
+            document.querySelector(".modalConfirm").style.display= "block";
+            let btnFermer = document.createElement("button");
+            btnFermer.innerText= "Fermer";
+            btnFermer.classList.add("btn-submit");
+            btnFermer.setAttribute("id","btn-Fermer");
+            content.parentElement.appendChild(btnFermer);
+            console.log(isValid);
+        });
     }
-
-
 }
+

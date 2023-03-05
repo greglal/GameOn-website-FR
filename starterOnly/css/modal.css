@@ -587,3 +587,17 @@ footer {
     font-size:14px;
     color: red
 }
+
+.modalConfirm {
+    padding: 50% 20%;
+    margin: auto;
+    display: none;
+}
+
+.modalConfirm span{
+    color: white;
+}
+
+#btn-Fermer{
+    margin-bottom:10%;
+}
