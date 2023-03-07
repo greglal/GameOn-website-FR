@@ -91,12 +91,13 @@ function testingTournois() {
 
 // choix de la ville du tournois
 function testingVilles() {
+    let checked = false;
     for (let radio of radios){
-        if (radio.checked == false){
-            return false;
+        if (radio.checked == true){
+            return true;
         }
-        return true;
     }
+    return checked;
 }
 
 // acceptation CGU
@@ -108,7 +109,7 @@ function testingCGU() {
 }
 
 // création du span pour message d'erreur
-function isInvalid (element, message){
+function isInvalid(element, message) {
     let invalidMessage = document.createElement("span");
     invalidMessage.classList.add("error");
     invalidMessage.innerHTML = message;
@@ -117,7 +118,6 @@ function isInvalid (element, message){
 }
 
 let isValid = true;
-let form = document.querySelector(".form");
 
 // vérification et validation du formulaire
 function validate(event){
@@ -162,17 +162,15 @@ function validate(event){
         isInvalid(testCGU, messages.acceptCGU);
         testCGU.style.border = "2px solid red";
     }else if (isValid){
-        let valider = document.querySelector(".btn-submit");
-        valider.addEventListener("click",function(){
             document.querySelector(".form").style.display = "none";
             document.querySelector(".modalConfirm").style.display= "block";
             let btnFermer = document.createElement("button");
             btnFermer.innerText= "Fermer";
             btnFermer.classList.add("btn-submit");
             btnFermer.setAttribute("id","btn-Fermer");
+            btnFermer.addEventListener("click", function () {
+                modalbg.style.display = "none";
+            })
             content.parentElement.appendChild(btnFermer);
-            console.log(isValid);
-        });
     }
 }
-
