@@ -25,69 +25,6 @@ const messages ={
     acceptCGU : "Veuillez accepter les conditions d'utilisation"
 }
 
-// test du prenom
-function testingPrenom() {
-    if (testPrenom.value.length < 2) { //min 2 caractères
-        return false;
-    }
-    return true;
-}
-
-// test du format du prénom
-function testingFormatPrenom() {
-    if (validPrenom.test(testPrenom.value) == false) { //format sans chiffres ni caractères spéciaux
-        return false;
-    }
-    return true;
-}
-
-// test du nom
-function testingNom(){
-    if (testNom.value.length < 2) { // doit être renseigné
-        return false;
-    }
-    return true;
-}
-
-// test du format du nom
-function testingFormatNom() {
-    if(validPrenom.test(testNom.value) == false){
-        return false;
-    }
-    return true;
-}
-
-// test du mail
-function testingMail(){
-    if (testMail.value.length == "") { // doit être renseigné
-        return false;
-    }
-    return true;
-}
-
-// test du format du mail
-function testingFormatMail(){
-    if (validMail.test(testMail.value) == false){
-        return false;
-    }
-    return true;
-}
-
-// test de la date
-function testingDate(){
-    if (testDate.value.length == ""){
-        return false;
-    }
-    return true
-}
-
-// test du nombre de tournois
-function testingTournois() {
-    if(testTournois.value == ""){
-        return false;
-    }
-    return true;
-}
 
 // choix de la ville du tournois
 function testingVilles() {
@@ -98,14 +35,6 @@ function testingVilles() {
         }
     }
     return checked;
-}
-
-// acceptation CGU
-function testingCGU() {
-    if(testCGU.checked == false){
-        return false;
-    }
-    return true;
 }
 
 // création du span pour message d'erreur
@@ -119,49 +48,139 @@ function isInvalid(element, message) {
 
 let isValid = true;
 
-// vérification et validation du formulaire
-function validate(event){
-    event.preventDefault();
-    if(!testingPrenom()) {
+function validatePrenom(){
+    if(testPrenom.value.length < 2) {
         isValid = false;
         isInvalid(testPrenom, messages.tailleInput);
         testPrenom.style.border = "2px solid red";
-    } else if (!testingFormatPrenom()){
+    } else if (validPrenom.test(testPrenom.value) == false){
         isValid = false;
         isInvalid(testPrenom, messages.formatInput);
         testPrenom.style.border = "2px solid red";
-    } else if(!testingNom()){
+    }else {
+        removeErrorMessage(testPrenom);
+        return true;
+    }
+}
+
+function validateNom(){
+    if(testNom.value.length < 2){
         isValid = false;
         isInvalid(testNom, messages.tailleInput);
         testNom.style.border = "2px solid red";
-    } else if (!testingFormatNom()){
+    } else if (validPrenom.test(testNom.value) == false){
         isValid = false;
         isInvalid(testNom, messages.formatInput);
         testNom.style.border = "2px solid red";
-    } else if (!testingMail()) {
+    }else {
+        removeErrorMessage(testNom);
+        return true;
+    }
+}
+
+function validateMail(){
+    if (testMail.value.length == "") {
         isValid = false;
         isInvalid(testMail, messages.mailInput);
         testMail.style.border = "2px solid red";
-    }else if (!testingFormatMail()){
+    }else if (validMail.test(testMail.value) == false){
         isValid = false;
         isInvalid(testMail, messages.formatInput);
         testMail.style.border = "2px solid red";
-    } else if (!testingDate()){
+    }else {
+        removeErrorMessage(testMail);
+        return true;
+    }
+}
+
+function validateDate(){
+    if (testDate.value.length == ""){
         isValid = false;
         isInvalid(testDate, messages.dateInput);
         testDate.style.border = "2px solid red";
-    }else if (!testingTournois()){
+    }else {
+        removeErrorMessage(testDate);
+        return true;
+    }
+}
+
+function validateTournois(){
+    if (testTournois.value == ""){
         isValid = false;
         isInvalid(testTournois, messages.emptyInput);
         testTournois.style.border = "2px solid red";
-    }else if (!testingVilles()){
+    }else {
+        removeErrorMessage(testTournois);
+        return true;
+    }
+}
+
+function validateVille() {
+    if (!testingVilles()){
         isValid = false;
         isInvalid(villeTournois, messages.selectVille);
-    }else if(!testingCGU()){
+    }else {
+        removeErrorMessage(villeTournois);
+        return true;
+    }
+}
+
+function validateCGU() {
+    if(testCGU.checked == false){
         isValid = false;
         isInvalid(testCGU, messages.acceptCGU);
         testCGU.style.border = "2px solid red";
-    }else if (isValid){
+    }else {
+        return true;
+    }
+}
+
+function removeErrorMessage(input){
+    let errorMessages = document.querySelectorAll(".error");
+    let inputs = document.querySelectorAll("input");
+    if(errorMessages.length > 0){
+        for (let errorMessage of errorMessages){
+            errorMessage.style.display="none";
+            for(let input of inputs){
+                input.style.border =  "0px";
+            }
+        }
+    }
+}
+
+// vérification et validation du formulaire
+function validate(event){
+    event.preventDefault();
+    let isValid = true;
+    if(!validatePrenom()){
+        isValid = false;
+        return;
+    }
+    if(!validateNom()){
+        isValid = false;
+        return;
+    }
+    if(!validateMail()){
+        isValid = false;
+        return;
+    }
+    if(!validateDate()){
+        isValid = false;
+        return;
+    }
+    if(!validateTournois()){
+        isValid = false;
+        return;
+    }
+    if(!validateVille()){
+        isValid = false;
+        return;
+    }
+    if(!validateCGU()){
+        isValid = false;
+        return;
+    }
+    if (isValid){
             document.querySelector(".form").style.display = "none";
             document.querySelector(".modalConfirm").style.display= "block";
             let btnFermer = document.createElement("button");
