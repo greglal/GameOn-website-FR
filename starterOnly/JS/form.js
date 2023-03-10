@@ -1,4 +1,4 @@
-//éléments du DOM
+/** éléments du DOM */
 const testPrenom = document.getElementById("first");
 const testNom = document.getElementById("last");
 const testMail = document.getElementById("email");
@@ -9,12 +9,11 @@ const radios = document.querySelectorAll(".checkbox-input[type=radio]");
 const testCGU = document.getElementById("checkbox1");
 const content = document.querySelector(".modalConfirm");
 
-//éléments de validation
+/** éléments de validation du format */
 const validPrenom = /^[a-zA-Zéèêîïöôç][a-zéèêîïöôç]+([-'\s][a-zA-Zéèêîïöôç][a-zéèêîïöôç]+)?/;
 const validMail = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
 
-
-//messages d'erreur
+/** messages d'erreur */
 const messages ={
     tailleInput : "Ce champ doit contenir au moins 2 caracteres",
     formatInput : "format incorrect",
@@ -25,8 +24,10 @@ const messages ={
     acceptCGU : "Veuillez accepter les conditions d'utilisation"
 }
 
-
-// choix de la ville du tournois
+/**
+ * choix de la ville du tournois
+ * @returns {boolean}
+ */
 function testingVilles() {
     let checked = false;
     for (let radio of radios){
@@ -37,7 +38,7 @@ function testingVilles() {
     return checked;
 }
 
-// création du span pour message d'erreur
+/** création du span pour message d'erreur */
 function isInvalid(element, message) {
     let invalidMessage = document.createElement("span");
     invalidMessage.classList.add("error");
@@ -48,6 +49,11 @@ function isInvalid(element, message) {
 
 let isValid = true;
 
+/**
+ * test de la valeur et du format du prénom
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validatePrenom(){
     if(testPrenom.value.length < 2) {
         isValid = false;
@@ -63,6 +69,11 @@ function validatePrenom(){
     }
 }
 
+/**
+ * test de la valeur et du format du nom
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateNom(){
     if(testNom.value.length < 2){
         isValid = false;
@@ -78,6 +89,11 @@ function validateNom(){
     }
 }
 
+/**
+ * test de la valeur et du format de l'adresse mail
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateMail(){
     if (testMail.value.length == "") {
         isValid = false;
@@ -93,6 +109,11 @@ function validateMail(){
     }
 }
 
+/**
+ * test si la date est renseignée
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateDate(){
     if (testDate.value.length == ""){
         isValid = false;
@@ -104,6 +125,11 @@ function validateDate(){
     }
 }
 
+/**
+ * test si un nombre de tournois est bien renseigné
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateTournois(){
     if (testTournois.value == ""){
         isValid = false;
@@ -115,6 +141,11 @@ function validateTournois(){
     }
 }
 
+/**
+ * test si une ville est bien sélectionnée
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateVille() {
     if (!testingVilles()){
         isValid = false;
@@ -125,6 +156,11 @@ function validateVille() {
     }
 }
 
+/**
+ * test si l'acceptation des CGU est bien cochée
+ * efface le message d'erreur une fois le champ correctement rempli
+ * @returns {boolean}
+ */
 function validateCGU() {
     if(testCGU.checked == false){
         isValid = false;
@@ -135,6 +171,11 @@ function validateCGU() {
     }
 }
 
+/**
+ * efface le message d'erreur sous l'input
+ * supprime le cadre rouge autour de l'input
+ * @param input
+ */
 function removeErrorMessage(input){
     let errorMessages = document.querySelectorAll(".error");
     let inputs = document.querySelectorAll("input");
@@ -148,48 +189,53 @@ function removeErrorMessage(input){
     }
 }
 
-// vérification et validation du formulaire
+/**
+ * crée un bouton "fermer" au bas de la modale de confirmation d'inscription
+ * ferme la modale lors du clic sur le bouton "fermer"
+ */
+function btmFermer(){
+    let btnFermer = document.createElement("button");
+    btnFermer.innerText= "Fermer";
+    btnFermer.classList.add("btn-submit");
+    btnFermer.setAttribute("id","btn-Fermer");
+    btnFermer.addEventListener("click", function () {
+        modalbg.style.display = "none";
+    })
+    content.parentElement.appendChild(btnFermer);
+}
+
+/**
+ * vérification de chaque entrée du formulaire
+ * si le formulaire est correctement rempli alors on ferme le formulaire et on laisse apparaitre la modale de confirmation
+  */
+
 function validate(event){
     event.preventDefault();
     let isValid = true;
     if(!validatePrenom()){
-        isValid = false;
         return;
     }
     if(!validateNom()){
-        isValid = false;
         return;
     }
     if(!validateMail()){
-        isValid = false;
         return;
     }
     if(!validateDate()){
-        isValid = false;
         return;
     }
     if(!validateTournois()){
-        isValid = false;
         return;
     }
     if(!validateVille()){
-        isValid = false;
         return;
     }
     if(!validateCGU()){
-        isValid = false;
         return;
     }
     if (isValid){
             document.querySelector(".form").style.display = "none";
             document.querySelector(".modalConfirm").style.display= "block";
-            let btnFermer = document.createElement("button");
-            btnFermer.innerText= "Fermer";
-            btnFermer.classList.add("btn-submit");
-            btnFermer.setAttribute("id","btn-Fermer");
-            btnFermer.addEventListener("click", function () {
-                modalbg.style.display = "none";
-            })
-            content.parentElement.appendChild(btnFermer);
+            btmFermer();
     }
 }
