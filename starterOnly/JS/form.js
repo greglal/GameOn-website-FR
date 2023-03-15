@@ -38,7 +38,11 @@ function testingVilles() {
     return checked;
 }
 
-/** création du span pour message d'erreur */
+/**
+ * création du span pour message d'erreur
+ * @param element
+ * @param message
+ */
 function isInvalid(element, message) {
     let invalidMessage = document.createElement("span");
     invalidMessage.classList.add("error");
