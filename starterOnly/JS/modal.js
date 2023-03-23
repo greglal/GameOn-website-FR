@@ -22,12 +22,11 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
  * --- et fermeture message de confirmation
  * --- et enlève bouton fermer
   */
-
 function launchModal() {
   modalbg.style.display = "block";
   document.querySelector("form").style.display = "block";
   document.querySelector("form").reset();
-  document.getElementById("hehe").style.display = "none";
+  document.getElementById("confirm").style.display = "none";
   document.getElementById("btn-Fermer").style.display = "none";
 }
 
